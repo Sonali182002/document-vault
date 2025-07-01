@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Document Vault</title>
+</head>
+<body>
+  <h2>Upload File</h2>
+  <form id="uploadForm">
+    <input type="file" id="fileInput" />
+    <button type="submit">Upload</button>
+  </form>
+  <h2>Download File</h2>
+  <input type="text" id="downloadName" placeholder="Filename" />
+  <button onclick="downloadFile()">Download</button>
+
+<script>
+document.getElementById('uploadForm').onsubmit = async function(e) {
+  e.preventDefault();
+  const file = document.getElementById('fileInput').files[0];
+  const formData = new FormData();
+  formData.append('file', file);
+  await fetch('/vault/upload', { method: 'POST', body: formData });
+  alert('File uploaded!');
+};
+
+function downloadFile() {
+  const filename = document.getElementById('downloadName').value;
+  window.location = '/vault/download/' + encodeURIComponent(filename);
+}
+</script>
+</body>
+</html>
